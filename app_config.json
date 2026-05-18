@@ -1,0 +1,14 @@
+{
+  "download_delay": 1.0,
+  "max_workers": 1,
+  "window_width": 1200,
+  "window_height": 700,
+  "proxy": {
+    "enabled": true,
+    "type": "http",
+    "host": "127.0.0.1",
+    "port": 1080,
+    "username": "",
+    "password": ""
+  }
+}

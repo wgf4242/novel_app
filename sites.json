@@ -1,0 +1,73 @@
+{
+  "sites": [
+    {
+      "name": "新笔趣阁",
+      "domain": "xbqg8.net",
+      "catalog": {
+        "container_xpath": "//div[contains(@class, 'ml_list')]//li//a",
+        "start_marker": null,
+        "end_marker": null,
+        "next_page_xpath": null
+      },
+      "content": {
+        "content_xpath": "//div[@class='novelcontent']",
+        "start_marker": null,
+        "end_marker": null,
+        "ad_patterns": [
+          "看正@版.*?上％\\\\",
+          "最新章节首发.*",
+          "本章未完.*",
+          "本章已完成！.*",
+          "捞尸人 最新章节.*",
+          "<[^>]+>"
+        ],
+        "next_page_pattern": "var next_page = \"([^\"]+)\""
+      },
+      "chapter_url_pattern": "/\\d+/\\d+/\\d+\\.html"
+    },
+    {
+      "name": "错层小说网",
+      "domain": "cuoceng.com",
+      "catalog": {
+        "container_xpath": "//div[@id='allchapter']//a",
+        "start_marker": null,
+        "end_marker": null,
+        "next_page_xpath": "//a[contains(text(), '下一页')]"
+      },
+      "content": {
+        "content_xpath": "//div[@id='chaptercontent']",
+        "start_marker": null,
+        "end_marker": null,
+        "ad_patterns": [
+          "<[^>]+>",
+          "最新章节.*",
+          "错层小说网.*"
+        ],
+        "next_page_pattern": null
+      },
+      "chapter_url_pattern": "/book/[a-f0-9\\-]+/[a-f0-9\\-]+\\.html"
+    },
+    {
+      "name": "sudugu.org",
+      "domain": "sudugu.org",
+      "catalog": {
+        "container_xpath": "//div[@id='list']//a",
+        "start_marker": null,
+        "end_marker": null,
+        "next_page_xpath": "//a[contains(text(), '下一页')]"
+      },
+      "content": {
+        "content_xpath": "//div[@class='con']",
+        "start_marker": null,
+        "end_marker": null,
+        "ad_patterns": [
+          "<[^>]+>",
+          "最新章节.*",
+          "错层小说网.*"
+        ],
+        "next_page_pattern": null
+      },
+      "chapter_url_pattern": "/book/[a-f0-9\\-]+/[a-f0-9\\-]+\\.html"
+    }
+  ]
+}
