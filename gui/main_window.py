@@ -23,6 +23,24 @@ class NovelApp:
         self.chapter_manager = ChapterManager(self)
         self._setup_ui()
         self._load_novels()
+    
+    def _center_window(self, window: tk.Toplevel) -> None:
+        """将窗口居中显示在主窗口"""
+        self.root.update_idletasks()
+        
+        main_x = self.root.winfo_x()
+        main_y = self.root.winfo_y()
+        main_w = self.root.winfo_width()
+        main_h = self.root.winfo_height()
+        
+        window.update_idletasks()
+        win_w = window.winfo_width()
+        win_h = window.winfo_height()
+        
+        x = main_x + (main_w - win_w) // 2
+        y = main_y + (main_h - win_h) // 2
+        
+        window.geometry(f"{win_w}x{win_h}+{x}+{y}")
 
     def _setup_ui(self) -> None:
         self._setup_toolbar()
@@ -270,20 +288,54 @@ class NovelApp:
             messagebox.showwarning("提示", "请先选择小说")
             return
         
-        file_path = filedialog.asksaveasfilename(
-            defaultextension=".txt",
-            filetypes=[("文本文件", "*.txt")],
-            initialfile=f"{self.current_novel.title}.txt"
-        )
+        selected_chapters = [cid for cid, checked in self.chapter_manager.chapter_checkboxes.items() if checked]
         
-        if not file_path:
-            return
+        export_dialog = tk.Toplevel(self.root)
+        export_dialog.title("导出选项")
+        export_dialog.geometry("300x150")
+        export_dialog.resizable(False, False)
+        export_dialog.transient(self.root)
+        export_dialog.grab_set()
+        self._center_window(export_dialog)
         
-        exporter = Exporter(self.db)
-        if exporter.export_to_txt(self.current_novel, file_path):
-            messagebox.showinfo("成功", f"已导出到: {file_path}")
-        else:
-            messagebox.showerror("错误", "导出失败，可能没有已下载的章节")
+        export_type = tk.IntVar(value=1)
+        
+        ttk.Radiobutton(export_dialog, text="导出全部章节", variable=export_type, value=0).pack(pady=5)
+        ttk.Radiobutton(export_dialog, text="导出选中章节", variable=export_type, value=1).pack(pady=5)
+        
+        def do_export():
+            file_path = filedialog.asksaveasfilename(
+                defaultextension=".txt",
+                filetypes=[("文本文件", "*.txt")],
+                initialfile=f"{self.current_novel.title}.txt"
+            )
+            
+            if not file_path:
+                export_dialog.destroy()
+                return
+            
+            exporter = Exporter(self.db)
+            chapter_ids = None
+            
+            if export_type.get() == 1:
+                if not selected_chapters:
+                    messagebox.showwarning("提示", "没有选中任何章节")
+                    export_dialog.destroy()
+                    return
+                chapter_ids = [int(cid) for cid in selected_chapters]
+            
+            if exporter.export_to_txt(self.current_novel, file_path, chapter_ids):
+                messagebox.showinfo("成功", f"已导出到: {file_path}")
+            else:
+                messagebox.showerror("错误", "导出失败，可能没有已下载的章节")
+            
+            export_dialog.destroy()
+        
+        button_frame = ttk.Frame(export_dialog)
+        button_frame.pack(fill=tk.X, padx=10, pady=10)
+        
+        ttk.Button(button_frame, text="确定", command=do_export).pack(side=tk.RIGHT, padx=5)
+        ttk.Button(button_frame, text="取消", command=export_dialog.destroy).pack(side=tk.RIGHT)
 
     def _delete_novel(self) -> None:
         if not self.current_novel:

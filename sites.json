@@ -68,6 +68,28 @@
         "next_page_pattern": null
       },
       "chapter_url_pattern": "/book/[a-f0-9\\-]+/[a-f0-9\\-]+\\.html"
+    },
+    {
+      "name": "笔趣阁",
+      "domain": "www.biquinfo.com",
+      "catalog": {
+        "container_xpath": "//div[@class='section-box']//a",
+        "start_marker": null,
+        "end_marker": null,
+        "next_page_xpath": "//a[contains(text(), '下一页')]"
+      },
+      "content": {
+        "content_xpath": "//div[@class='content']",
+        "start_marker": null,
+        "end_marker": null,
+        "ad_patterns": [
+          "<[^>]+>",
+          "最新章节.*",
+          "错层小说网.*"
+        ],
+        "next_page_pattern": null
+      },
+      "chapter_url_pattern": "/book/[a-f0-9\\-]+/[a-f0-9\\-]+\\.html"
     }
   ]
 }

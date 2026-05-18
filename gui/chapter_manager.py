@@ -40,6 +40,8 @@ class ChapterManager:
         self.chapter_tree.bind("<<TreeviewSelect>>", self._on_chapter_select)
         self.chapter_tree.bind("<Control-1>", self._on_chapter_ctrl_click)
         self.chapter_tree.bind("<Button-3>", self._show_chapter_context_menu)
+        self.chapter_tree.bind("<Control-a>", self._on_ctrl_a)
+        self.chapter_tree.bind("<Control-A>", self._on_ctrl_a)
         
         self._setup_context_menu()
     
@@ -199,3 +201,7 @@ class ChapterManager:
             return
         
         self.app._start_download(chapters, site_config)
+    
+    def _on_ctrl_a(self, event) -> None:
+        """Ctrl+A 全选所有章节"""
+        self._check_all_chapters()

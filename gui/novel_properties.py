@@ -24,7 +24,28 @@ class NovelPropertiesDialog:
         self.dialog.resizable(False, False)
         self.dialog.transient(self.parent)
         self.dialog.grab_set()
+        self._center_window(self.dialog)
+        self._create_dialog_content()
+    
+    def _center_window(self, window: tk.Toplevel) -> None:
+        """将窗口居中显示在主窗口"""
+        self.parent.update_idletasks()
         
+        main_x = self.parent.winfo_x()
+        main_y = self.parent.winfo_y()
+        main_w = self.parent.winfo_width()
+        main_h = self.parent.winfo_height()
+        
+        window.update_idletasks()
+        win_w = window.winfo_width()
+        win_h = window.winfo_height()
+        
+        x = main_x + (main_w - win_w) // 2
+        y = main_y + (main_h - win_h) // 2
+        
+        window.geometry(f"{win_w}x{win_h}+{x}+{y}")
+    
+    def _create_dialog_content(self) -> None:
         frame = ttk.Frame(self.dialog, padding=10)
         frame.pack(fill=tk.BOTH, expand=True)
         
