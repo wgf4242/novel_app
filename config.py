@@ -17,7 +17,7 @@ class SiteConfig:
     content_start_marker: Optional[str]
     content_end_marker: Optional[str]
     ad_patterns: list[str]
-    next_page_pattern: Optional[str]
+    next_page_xpath: Optional[str]
     chapter_url_pattern: str
     download_delay: float
 
@@ -72,7 +72,7 @@ class ConfigManager:
                 content_start_marker=site.get("content", {}).get("start_marker"),
                 content_end_marker=site.get("content", {}).get("end_marker"),
                 ad_patterns=site.get("content", {}).get("ad_patterns", []),
-                next_page_pattern=site.get("content", {}).get("next_page_pattern"),
+                next_page_xpath=site.get("content", {}).get("next_page_xpath"),
                 chapter_url_pattern=site.get("chapter_url_pattern", ""),
                 download_delay=site.get("download_delay", 1.0),
                 )

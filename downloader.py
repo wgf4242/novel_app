@@ -150,10 +150,7 @@ class Downloader:
                 break
                 
             current_url = next_url
-            
-            if page_count >= 10:
-                break
-        
+
         print(f"共找到 {len(chapters)} 章")
         return chapters
         

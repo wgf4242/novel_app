@@ -90,10 +90,10 @@ class Parser:
         return content.strip()
 
     def _clean_content(self, content: str) -> str:
+        content = re.sub(r'\r\n', '\n', content)
         for pattern in self.config.ad_patterns:
             content = re.sub(pattern, '', content)
         # Normalize newlines
-        content = re.sub(r'\r\n', '\n', content)
         # Remove excessive whitespace
         content = re.sub(r'[ \t]+', ' ', content)  # Multiple spaces/tabs to one
         # Process lines
@@ -111,15 +111,15 @@ class Parser:
 
     def extract_next_page(self, html_content: str, base_url: str) -> Optional[str]:
         """提取下一页链接，如果没有则返回 None"""
-        if not self.config.next_page_pattern:
+        if not self.config.next_page_xpath:
             return None
-            
-        match = re.search(self.config.next_page_pattern, html_content)
-        if match:
-            next_url = match.group(1)
-            if next_url:
-                full_url = urljoin(base_url, next_url)
-                return full_url
+        
+        tree = html.fromstring(html_content)
+        next_links = tree.xpath(self.config.next_page_xpath)
+        if next_links:
+            href = next_links[0].get('href', '')
+            if href:
+                return urljoin(base_url, href)
         return None
 
     def extract_novel_info(self, html_content: str) -> dict:
